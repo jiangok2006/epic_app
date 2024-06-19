@@ -1,4 +1,4 @@
-import { type MetaFunction } from '@remix-run/node'
+import { LoaderFunctionArgs, type MetaFunction } from '@remix-run/node'
 import {
 	Tooltip,
 	TooltipContent,
@@ -7,6 +7,8 @@ import {
 } from '#app/components/ui/tooltip.tsx'
 import { cn } from '#app/utils/misc.tsx'
 import { logos } from './logos/logos.ts'
+import { get_album } from '#app/utils/album.server.ts'
+import { json, useLoaderData } from '@remix-run/react'
 
 export const meta: MetaFunction = () => [{ title: 'Epic Notes' }]
 
@@ -27,7 +29,13 @@ const rowClasses: Record<(typeof logos)[number]['row'], string> = {
 	6: 'xl:row-start-6',
 }
 
+export async function loader({ request }: LoaderFunctionArgs) {
+	return await get_album()
+}
+
 export default function Index() {
+	const album = useLoaderData<typeof loader>()
+
 	return (
 		<main className="font-poppins grid h-full place-items-center">
 			<div className="grid place-items-center px-4 py-16 xl:grid-cols-2 xl:gap-24">
@@ -95,6 +103,9 @@ export default function Index() {
 						))}
 					</TooltipProvider>
 				</ul>
+				<div>
+					{album.id}, {album.title}, {album.price}
+				</div>
 			</div>
 		</main>
 	)
