@@ -7,7 +7,7 @@ import {
 } from '#app/components/ui/tooltip.tsx'
 import { cn } from '#app/utils/misc.tsx'
 import { logos } from './logos/logos.ts'
-import { get_album } from '#app/utils/album.server.ts'
+import { getAlbum } from '#app/utils/album.server.ts'
 import { json, useLoaderData } from '@remix-run/react'
 
 export const meta: MetaFunction = () => [{ title: 'Epic Notes' }]
@@ -30,7 +30,7 @@ const rowClasses: Record<(typeof logos)[number]['row'], string> = {
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
-	return await get_album()
+	return await getAlbum()
 }
 
 export default function Index() {

@@ -25,7 +25,7 @@ const getAlbumsErrorSchema = z.union([
 	}),
 ])
 
-async function get_album() {
+async function getAlbum() {
 	const response = await fetch(`http://localhost:8090/v1/album_list_service`)
 	const album = await response.json()
 	const parsedData = getAlbumsSuccessSchema.safeParse(album)
@@ -38,5 +38,5 @@ async function get_album() {
 	return json(parsedData.data)
 }
 
-export { get_album }
+export { getAlbum }
 export type { Album }
